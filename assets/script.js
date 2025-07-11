@@ -1,5 +1,3 @@
-const listFiles = [];
-
 function clickItem(path, id) {    
     document.querySelector('audio').src = path;
     document.getElementById('label_lecteur').innerTEXT = path;
@@ -13,14 +11,17 @@ function clickItem(path, id) {
 function constructList(listFiles) {
     let contentUl = '';
     for (let i = 0; i < listFiles.length; i++) {
-        const pathFile = listFiles[i];
+        const pathFile = listFiles[i].path;
         let liDom = `<li><span id="element_${i}" onclick="clickItem('file:///${pathFile}', 'element_${i}');">${pathFile.substring(pathFile.lastIndexOf('/') + 1)}</span></li>`;
         contentUl = contentUl+liDom
     }    
     document.getElementById('listFiles').innerHTML = contentUl;
 }
 
-setTimeout(() => {
+fetch('./assets/data.json')
+  .then(response => response.json())
+  .then(data => {
+    const listFiles = data.data;
+    console.log(listFiles);
     constructList(listFiles);
-}, 500);
-
+  });
