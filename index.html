@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lecteur audio ARA</title>
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+    <h2>refresh liste files</h2>
+    <code>
+        # commande terminal pour listé
+        <br>find ~/Musique/ -type f -name "*.mp3" | sed "s/^/'/; s/$/'/"
+        <br># colle le résultat dans ./assets/scripts.js const listFiles
+    </code>
+    <script src="./assets/script.js"></script>
+    <h2>list files</h2>
+    <ul id="listFiles"></ul>
+    <h2>lecteur</h2>
+    <p id="label_lecteur"></p>
+    <audio autoplay loop controls src="" id="lecteur"></audio>
+</body>
+</html>
