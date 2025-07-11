@@ -2,7 +2,9 @@
 
 # Demande à l'utilisateur d'entrer les chemins
 read -rp "Chemin du projet (/racine/dossierProjet) : " pathProject
-read -rp "Chemin à explorer (/racine/Music) : " pathtosearch
+read -rp "dossier à explorer (!dans le projet! music) : " folderMusic
+
+pathtosearch=$pathProject/$folderMusic
 
 # Vérifie si les chemins existent
 if [ ! -d "$pathProject" ]; then
@@ -22,13 +24,16 @@ echo $output;
 echo $pathtosearch;
 
 # Initialisation du JSON
-echo "[" > "$output"
+echo "{\"data\":[" > "$output"
 
 first=1
 find "$pathtosearch/" -type f -name "*.mp3" | while read -r file; do
   duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$file")
   name=$(basename "$file")
   path=$(realpath "$file")
+
+  path=${path#"$pathProject"};
+  path=$(dirname "$path");
 
   [ "$first" -eq 0 ] && echo "," >> "$output"
   first=0
@@ -43,6 +48,6 @@ find "$pathtosearch/" -type f -name "*.mp3" | while read -r file; do
 done
 
 echo "" >> "$output"
-echo "]" >> "$output"
+echo "],\"folderMusic\":\"$folderMusic\"}" >> "$output"
 
 echo "✅ Fichier JSON généré : $output"
