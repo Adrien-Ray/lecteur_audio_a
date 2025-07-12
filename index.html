@@ -9,12 +9,7 @@
 <body>
     <h2>refresh liste files</h2>
     <code>
-        # commande terminal pour listé
-        <br>find ~/Musique/ -type f -name "*.mp3" | sed "s/^/'/; s/$/'/"
-        <br># colle le résultat dans ./assets/scripts.js const listFiles
-    </code>
-    <code>
-        <br><br>bash /chemin/lecteur_audio_a/assets/createData.sh
+        bash /chemin/lecteur_audio_a/assets/createData.sh
         <br><br># lancer le serveur statique
         <br>python3 -m http.server 8000
         <br><br># eventuellement pour passer sur le réseau local:
@@ -23,6 +18,8 @@
         <br>hostname -I | awk '{print $1}'
     </code>
     <script src="./assets/script.js"></script>
+    <h2>menu special</h2>
+    <button id="randomMode" onclick="randomMode()">lecture random</button>
     <h2>list files</h2>
     <ul id="listFiles"></ul>
     <h2>lecteur</h2>
