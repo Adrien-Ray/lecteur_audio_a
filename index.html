@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lecteur audio ARA</title>
+    <title>lecteur audio A</title>
     <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
@@ -12,6 +12,15 @@
         # commande terminal pour listé
         <br>find ~/Musique/ -type f -name "*.mp3" | sed "s/^/'/; s/$/'/"
         <br># colle le résultat dans ./assets/scripts.js const listFiles
+    </code>
+    <code>
+        <br><br>bash /chemin/lecteur_audio_a/assets/createData.sh
+        <br><br># lancer le serveur statique
+        <br>python3 -m http.server 8000
+        <br><br># eventuellement pour passer sur le réseau local:
+        <br>sudo python3 -m http.server 80 --bind 0.0.0.0
+        <br># afficher IP local:
+        <br>hostname -I | awk '{print $1}'
     </code>
     <script src="./assets/script.js"></script>
     <h2>list files</h2>
