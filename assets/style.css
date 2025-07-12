@@ -4,3 +4,6 @@ ul li span {
 ul li span.current {
     background-color: rgba(255, 0, 0, 0.5);
 }
+.randomModeActive{
+    background-color: rgba(255, 0, 0, 0.5);
+}
