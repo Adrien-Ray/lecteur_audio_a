@@ -41,8 +41,10 @@ function randomMode() {
             // console.log(randomItem);
             randomItem.click();
             function listenEnded() {
-                    randomCall();
-                    return;
+                // console.log('entrer dans listenEnded random');
+                document.getElementById('lecteur').removeEventListener('ended', listenEnded);
+                randomCall();
+                return;
             }
             document.getElementById('lecteur').addEventListener('ended',listenEnded, { once: true });
         };
@@ -64,10 +66,13 @@ function multiPistMode() {
 
     function nextCall() {
             console.log('exec func nextCall');
-            
             document.getElementById('lecteur').loop = false;
             let itemDOM;
             if (document.querySelector('button#multiPistMode.multiPistModeActive')) {
+                if (document.querySelector('#randomMode.randomModeActive')) {
+                    console.log('random is active, disabled nextCall');
+                    return;
+                }
                 itemDOM = document.querySelectorAll('ul#listFiles > li > span.multiPistModeCheck');
             } else {
                 console.error('La fonction nextCall ne devrai pas être appelé si multiPistMode is disabled');
@@ -85,9 +90,10 @@ function multiPistMode() {
                 nextItem.click();
             }, 100);
             function listenEnded() {
-                    nextCall();
-                    // document.getElementById('lecteur').removeEventListener('ended', listenEnded);
-                    return;
+                // console.log('entrer dans listenEnded multi');
+                document.getElementById('lecteur').removeEventListener('ended', listenEnded);
+                nextCall();
+                return;
             }
             document.getElementById('lecteur').addEventListener('ended',listenEnded, { once: true });
         };
