@@ -1,9 +1,14 @@
 ul li span {
     cursor:pointer;
 }
-ul li span.current {
-    background-color: rgba(255, 0, 0, 0.5);
+ul li input[type='checkbox'] {
+    display:none;
 }
-.randomModeActive{
+ul.multiPistModeEnabled li input[type='checkbox'] {
+    display:inline-block;
+}
+.randomModeActive,
+.multiPistModeActive,
+ul li span.current{
     background-color: rgba(255, 0, 0, 0.5);
 }
