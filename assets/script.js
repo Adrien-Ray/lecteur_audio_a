@@ -1,137 +1,112 @@
-function clickItem(path, id) {    
-    document.querySelector('audio').src = path;
-    document.getElementById('label_lecteur').innerTEXT = path;
-    const elementCurrent = document.querySelectorAll('ul li span.current');
-    elementCurrent.forEach(element => {
-        element.classList.toggle('current');
-    })
-    document.getElementById(id).classList.toggle('current');
-    return;
-}
+import { constructList } from "./scripts/constructList.js";
 
-function constructList(listFiles, folderMusic) {
-    let contentUl = '';
-    for (let i = 0; i < listFiles.length; i++) {
-        const file = listFiles[i].name;
-        const dir = listFiles[i].path;
-        const duration = listFiles[i].duration;
-        
-        let liDom = `<li><input class="multiPistModeCheckbox" type="checkbox" onclick="document.getElementById('element_${i}').classList.toggle('multiPistModeCheck');"><span id="element_${i}" data-object='{"file":"${file}","dir":"${dir}","duration":"${duration}"}' onclick="clickItem('${dir}/${file}', 'element_${i}');">${dir}/<b>${file}</b></span></li>`;
-        contentUl = contentUl+liDom
-    }    
-    document.getElementById('listFiles').innerHTML = contentUl;
-    return;
-}
-
-function randomMode() {
-    if (! document.getElementById('randomMode').classList.contains('randomModeActive')) {
-        document.getElementById('lecteur').loop = false;
-        function randomCall() {
-            console.log('exec func randomCall');
+function menuSpecial() {
+    // listen click on nodeList special
+    const listSpecialAction = document.querySelectorAll('.buttonSpecial');
+    listSpecialAction.forEach(btnAction => {
+        btnAction.addEventListener('click', () => {
+            // toggle en fonction du btn les class            
+            if (btnAction.id === 'randomMode') {
+                document.getElementById('randomMode').classList.toggle('randomModeActive');
+            }
+            if (btnAction.id === 'multiPistMode') {
+                document.getElementById('multiPistMode').classList.toggle('multiPistModeActive');
+                document.getElementById('listFiles').classList.toggle('multiPistModeEnabled');
+            }
+            var isRandomMode = document.querySelector('#randomMode.randomModeActive');
+            var isMultiPistMode = document.querySelector('#multiPistMode.multiPistModeActive');
+            if (isRandomMode || isMultiPistMode) {
             document.getElementById('lecteur').loop = false;
-            let itemDOM;
-            if (document.querySelector('button#multiPistMode.multiPistModeActive')) {
-                itemDOM = document.querySelectorAll('ul#listFiles > li > span.multiPistModeCheck');
-            } else {
-                itemDOM = document.querySelectorAll('ul#listFiles > li > span');
             }
-            // console.log(itemDOM);
-            let randomIndex = Math.floor(Math.random() * itemDOM.length);
-            let randomItem = itemDOM[randomIndex];
-            // console.log(randomItem);
-            randomItem.click();
-            function listenEnded() {
-                // console.log('entrer dans listenEnded random');
-                document.getElementById('lecteur').removeEventListener('ended', listenEnded);
-                randomCall();
-                return;
+            if (!isRandomMode && !isMultiPistMode) {
+            document.getElementById('lecteur').loop = true;
             }
-            document.getElementById('lecteur').addEventListener('ended',listenEnded, { once: true });
-        };
-        randomCall();
-        document.getElementById('randomMode').addEventListener('click', () => {
-            randomCall = null;
-        });
-    } else {
-        document.getElementById('lecteur').loop = true;
-    }
-    document.getElementById('randomMode').classList.toggle('randomModeActive');
-    // document.getElementById('lecteur').loop = !document.getElementById('lecteur').loop;
-    document.getElementById('randomMode').addEventListener('click', () => {
-        return;
-    })
-}
-
-function multiPistMode() {
-
-    function nextCall() {
-            console.log('exec func nextCall');
-            document.getElementById('lecteur').loop = false;
-            let itemDOM;
-            if (document.querySelector('button#multiPistMode.multiPistModeActive')) {
-                if (document.querySelector('#randomMode.randomModeActive')) {
-                    console.log('random is active, disabled nextCall');
-                    return;
-                }
-                itemDOM = document.querySelectorAll('ul#listFiles > li > span.multiPistModeCheck');
-            } else {
-                console.error('La fonction nextCall ne devrai pas être appelé si multiPistMode is disabled');
-                return;
-            }
-            let arrayLength = itemDOM.length;
-            let itemDOMArray = Array.from(itemDOM);
-            let actualIndex = itemDOMArray.findIndex(item => item.classList.contains('current'));
-            let nextIndex = actualIndex+1;
-            if(nextIndex >= arrayLength) {
-                nextIndex = 0;
-            };
-            let nextItem = itemDOM[nextIndex];
-            setTimeout(() => {
-                nextItem.click();
-            }, 100);
-            function listenEnded() {
-                // console.log('entrer dans listenEnded multi');
-                document.getElementById('lecteur').removeEventListener('ended', listenEnded);
-                nextCall();
-                return;
-            }
-            document.getElementById('lecteur').addEventListener('ended',listenEnded, { once: true });
-        };
-
-
-
-
-    document.getElementById('multiPistMode').classList.toggle('multiPistModeActive');
-    document.getElementById('listFiles').classList.toggle('multiPistModeEnabled');
-    if (document.getElementById('multiPistMode').classList.contains('multiPistModeActive')) { // not already active
-        document.getElementById('lecteur').loop = false;
-        // console.log('now enabled');
-        // check si randomMode + écoute si toggle class random active pour call ou pas une fonction de lecture à la suite des items multiPistModeCheck
-        if (!document.getElementById('randomMode').classList.contains('randomModeActive')) {
-            // si pas random, call nextCall
-            nextCall();
-        } else {
-            // sinon écoute le désabonnement à randomMode
-            document.getElementById('randomMode').addEventListener('click',() => {
-                nextCall();
-            })
-        }
-        // si click sur modeMulti, exit return
-        document.getElementById('multiPistMode').addEventListener('click', () => {
-            return;
         })
-    } else { // already multi
-        document.getElementById('lecteur').loop = true;
-        // console.log('now disabled');
-        return;
+    });
+}
+
+function newCall(
+    itemDOMcssSelector = 'ul#listFiles > li > span',
+    isRandomMode = false
+) {
+    console.log('newCall', itemDOMcssSelector, isRandomMode);
+    let itemDOM = document.querySelectorAll(itemDOMcssSelector);
+    console.log(itemDOM);
+    if (isRandomMode) {
+        let randomIndex = Math.floor(Math.random() * itemDOM.length);
+        let randomItem = itemDOM[randomIndex];
+        randomItem.click();
+    } else {
+        let arrayLength = itemDOM.length;
+        let itemDOMArray = Array.from(itemDOM);
+        let actualIndex = itemDOMArray.findIndex(item => item.classList.contains('current'));
+        let nextIndex = actualIndex+1;
+        if(nextIndex >= arrayLength) {
+            nextIndex = 0;
+        };
+        let nextItem = itemDOM[nextIndex];
+        setTimeout(() => {
+            nextItem.click();
+        }, 100);
     }
+
+
+
+
+
+
+
+
+    return;
+}
+
+function lecteurEnded() {
+    // console.log('in lecteurEnded');
+    
+    // listen ended
+    document.getElementById('lecteur').addEventListener('ended',() => {
+        // console.log('in lecteurEnded listener scope');
+        
+        // check special bool bool
+        var isRandomMode = document.querySelector('#randomMode.randomModeActive');
+        var isMultiPistMode = document.querySelector('#multiPistMode.multiPistModeActive');
+        if (!isRandomMode && !isMultiPistMode) {
+            // if false false -> loop true
+            document.getElementById('lecteur').loop = true;
+        } else {
+            // else  loop false
+            document.getElementById('lecteur').loop = false;
+            let itemDOMcssSelector;
+            //       if *** true -> crée liste restreinte
+            if (isMultiPistMode) {
+                itemDOMcssSelector = 'ul#listFiles > li > span.multiPistModeCheck';
+                //           if false true -> nextCall()
+                if (!isRandomMode && isMultiPistMode) {
+                    newCall(itemDOMcssSelector,false);
+                }
+                //           if true true -> randomCall()
+                if (isRandomMode && isMultiPistMode) {
+                    newCall(itemDOMcssSelector,true);
+                }
+                
+            }
+            if (isRandomMode && !isMultiPistMode) {
+                itemDOMcssSelector = 'ul#listFiles > li > span';
+                //       if true false -> randomCall() (sans list restreinte)
+                    newCall(itemDOMcssSelector,true);
+                
+            }
+            
+        }
+    });
 }
 
 fetch('./assets/data.json')
   .then(response => response.json())
   .then(data => {
     const listFiles = data.data;
-    // console.log(data);
     constructList(listFiles, data.folderMusic);
+    menuSpecial();
+    lecteurEnded();
   });
 

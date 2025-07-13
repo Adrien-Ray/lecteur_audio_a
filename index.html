@@ -17,14 +17,28 @@
         <br># afficher IP local:
         <br>hostname -I | awk '{print $1}'
     </code>
-    <script src="./assets/script.js"></script>
     <h2>menu special</h2>
-    <button id="randomMode" onclick="randomMode()">mode random</button>
-    <button id="multiPistMode" onclick="multiPistMode()">mode multi-pistes</button>
+    <!-- <button id="randomMode" onclick="randomMode()">mode random</button>
+    <button id="multiPistMode" onclick="multiPistMode()">mode multi-pistes</button> -->
+    <button class="buttonSpecial" id="randomMode">mode random</button>
+    <button class="buttonSpecial" id="multiPistMode">mode multi-pistes</button>
     <h2>list files</h2>
     <ul id="listFiles"></ul>
     <h2>lecteur</h2>
     <p id="label_lecteur"></p>
     <audio autoplay loop controls src="" id="lecteur"></audio>
+    <script src="./assets/script.js" type="module"></script>
+    <script>
+        function clickItem(path, id) {    
+            document.querySelector('audio').src = path;
+            document.getElementById('label_lecteur').innerTEXT = path;
+            const elementCurrent = document.querySelectorAll('ul li span.current');
+            elementCurrent.forEach(element => {
+                element.classList.toggle('current');
+            })
+            document.getElementById(id).classList.toggle('current');
+            return;
+        };
+    </script>
 </body>
 </html>
