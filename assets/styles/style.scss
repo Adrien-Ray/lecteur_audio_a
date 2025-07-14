@@ -31,15 +31,49 @@ ul li span.current {
 
 /* GENERIC STYLE */
 
+@keyframes bgAnimation {
+    0% {
+    background-size: 85vh;
+    }
+
+    36% {
+    background-size: 85vh;
+    }
+    37% {
+    background-size: 90vh;
+    }
+    38% {
+    background-size: 85vh;
+    }
+
+    40% {
+    background-size: 85vh;
+    }
+    41% {
+    background-size: 90vh;
+    }
+    42% {
+    background-size: 85vh;
+    }
+
+    100% {
+    background-size: 85vh;
+    }
+}
+
 body {
     background-color: var(--main_bg);
     background-image: url(../ico/logoAlpha.png);
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
+    background-size: 85vh;
     font: var(--mainFont);
     margin: 0;
-
+    animation-name: bgAnimation;
+    animation-fill-mode: both;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
     .bgfilter {
         position: fixed;
         width: 100vw;
