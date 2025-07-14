@@ -4,30 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lecteur audio A</title>
-    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/styles/style.css">
+    <link rel="shortcut icon" href="./assets/ico/favicon2.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/styles/prism.css">
 </head>
 <body>
-    <h2>refresh liste files</h2>
-    <code>
-        bash /chemin/lecteur_audio_a/assets/createData.sh
-        <br><br># lancer le serveur statique
-        <br>python3 -m http.server 8000
-        <br><br># eventuellement pour passer sur le réseau local:
-        <br>sudo python3 -m http.server 80 --bind 0.0.0.0
-        <br># afficher IP local:
-        <br>hostname -I | awk '{print $1}'
-    </code>
-    <h2>menu special</h2>
-    <!-- <button id="randomMode" onclick="randomMode()">mode random</button>
-    <button id="multiPistMode" onclick="multiPistMode()">mode multi-pistes</button> -->
-    <button class="buttonSpecial" id="randomMode">mode random</button>
-    <button class="buttonSpecial" id="multiPistMode">mode multi-pistes</button>
-    <h2>list files</h2>
-    <ul id="listFiles"></ul>
-    <h2>lecteur</h2>
-    <p id="label_lecteur"></p>
-    <audio autoplay loop controls src="" id="lecteur"></audio>
+    <div class="bgfilter"></div>
+    <div class="content">
+        <section>
+            <h2>menu modes de lectures</h2>
+            <button class="buttonSpecial" id="randomMode" title="mode random"><img src="./assets/ico/shuffle.svg" alt="mode random"></button>
+            <button class="buttonSpecial" id="multiPistMode" title="sélection multi-pistes"><img src="./assets/ico/checklist.svg" alt="mode multi-pistes"></button>
+        </section>
+        <section>
+            <h2>lecteur</h2>
+            <p id="label_lecteur"></p>
+            <audio autoplay loop controls src="" id="lecteur"></audio>
+        </section>
+        <section>
+            <h2>list files</h2>
+            <ul id="listFiles"></ul>
+        </section>
+        <section>
+            <h2>refresh liste files</h2>
+        
+<pre><code class="language-sh">bash /chemin/lecteur_audio_a/assets/createData.sh
+# lancer le serveur statique
+python3 -m http.server 8000
+
+# éventuellement pour passer sur le réseau local:
+sudo python3 -m http.server 80 --bind 0.0.0.0
+# afficher IP local:
+hostname -I | awk '{print $1}'</code></pre>
+
+        </section>
+    </div>
+
     <script src="./assets/script.js" type="module"></script>
+    <script src="./assets/scripts/prism.js"></script>
     <script>
         function clickItem(path, id) {    
             document.querySelector('audio').src = path;

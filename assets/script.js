@@ -1,64 +1,6 @@
 import { constructList } from "./scripts/constructList.js";
-
-function menuSpecial() {
-    // listen click on nodeList special
-    const listSpecialAction = document.querySelectorAll('.buttonSpecial');
-    listSpecialAction.forEach(btnAction => {
-        btnAction.addEventListener('click', () => {
-            // toggle en fonction du btn les class            
-            if (btnAction.id === 'randomMode') {
-                document.getElementById('randomMode').classList.toggle('randomModeActive');
-            }
-            if (btnAction.id === 'multiPistMode') {
-                document.getElementById('multiPistMode').classList.toggle('multiPistModeActive');
-                document.getElementById('listFiles').classList.toggle('multiPistModeEnabled');
-            }
-            var isRandomMode = document.querySelector('#randomMode.randomModeActive');
-            var isMultiPistMode = document.querySelector('#multiPistMode.multiPistModeActive');
-            if (isRandomMode || isMultiPistMode) {
-            document.getElementById('lecteur').loop = false;
-            }
-            if (!isRandomMode && !isMultiPistMode) {
-            document.getElementById('lecteur').loop = true;
-            }
-        })
-    });
-}
-
-function newCall(
-    itemDOMcssSelector = 'ul#listFiles > li > span',
-    isRandomMode = false
-) {
-    console.log('newCall', itemDOMcssSelector, isRandomMode);
-    let itemDOM = document.querySelectorAll(itemDOMcssSelector);
-    console.log(itemDOM);
-    if (isRandomMode) {
-        let randomIndex = Math.floor(Math.random() * itemDOM.length);
-        let randomItem = itemDOM[randomIndex];
-        randomItem.click();
-    } else {
-        let arrayLength = itemDOM.length;
-        let itemDOMArray = Array.from(itemDOM);
-        let actualIndex = itemDOMArray.findIndex(item => item.classList.contains('current'));
-        let nextIndex = actualIndex+1;
-        if(nextIndex >= arrayLength) {
-            nextIndex = 0;
-        };
-        let nextItem = itemDOM[nextIndex];
-        setTimeout(() => {
-            nextItem.click();
-        }, 100);
-    }
-
-
-
-
-
-
-
-
-    return;
-}
+import { menuSpecial } from "./scripts/menuSpecial.js";
+import { newCall } from "./scripts/newCall.js";
 
 function lecteurEnded() {
     // console.log('in lecteurEnded');
@@ -109,4 +51,3 @@ fetch('./assets/data.json')
     menuSpecial();
     lecteurEnded();
   });
-
