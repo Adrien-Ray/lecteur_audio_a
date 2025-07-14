@@ -1,0 +1,78 @@
+:root{
+    --main_bg: #f7ecdb;
+    --main_bg_alpha: rgba(247, 236, 219, 0.98);
+    --second_bg_alpha: rgba(83, 221, 226, 0.95);
+    --active_color: rgba(255, 0, 0, 0.5);
+    --pre_active: rgba(255, 0, 0, 0.1);
+    --mainFont: 1.1em sans-serif;
+}
+
+/* FUNCTIONAL STYLE */
+
+ul li span {
+    cursor:pointer;
+}
+ul li input[type='checkbox'] {
+    display:none;
+}
+ul.multiPistModeEnabled li input[type='checkbox'] {
+    display:inline-block;
+}
+.randomModeActive,
+.multiPistModeActive,
+ul li span.current{
+    background-color: var(--active_color);
+}
+
+/* END FUNCTIONAL STYLE */
+
+/* GENERIC STYLE */
+
+body{
+    background-color: var(--main_bg);
+    background-image: url(../ico/logoAlpha.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    font: var(--mainFont);
+    margin: 0;
+    .bgfilter{
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        /* background-color: var(--main_bg_alpha); */
+        z-index: -999;
+        backdrop-filter: saturate(50%);
+    }
+    audio {
+        width: 100%;
+    }
+    button.buttonSpecial{
+        padding: 0;
+        img {
+        width: 3.5em;
+        aspect-ratio: 1/1;
+        }
+    }
+}
+
+/* END GENERIC STYLE */
+
+/* SPECIFIC STYLE */
+
+.content>section {
+    padding: 1em;
+    &:nth-child(odd){
+        background-color: var(--main_bg_alpha);
+    }
+    &:nth-child(even){
+        background-color: var(--second_bg_alpha);
+    }
+}
+
+.buttonSpecial:hover,
+ul li span:hover:not(.current){
+    background-color: var(--pre_active);
+}
+
+/* END SPECIFIC STYLE */
